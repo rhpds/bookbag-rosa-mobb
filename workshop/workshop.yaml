@@ -1,5 +1,5 @@
 ---
-name: Building a Modern Application Platform
+name: ROSA and CloudPaks
 modules:
   activate:
   - index
@@ -7,7 +7,7 @@ modules:
   - 100-setup/2-cluster-creation
 # - 100-setup/2-cluster-creation-hcp
   - 100-setup/3-access-cluster
-  - 200-ops/storage
+  - 200-ops/10-storage
   # - 200-ops/lab_4_configure_idp
   # - 200-ops/lab_5_cluster_upgrades
   # - 200-ops/lab_6_managing_worker_nodes

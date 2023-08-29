@@ -15,9 +15,9 @@ modules:
   100-setup/3-access-cluster:
     name: Create an Admin User
     exit_sign: Continue
-  200-setup/storage:
+  200-ops/storage:
     name: Setup EFS Storage
-    exit_sign: continue
+    exit_sign: Exit
   # 200-ops/lab_4_configure_idp:
   #   name: Configure Cluster Authentication Using Amazon Cognito
   #   exit_sign: Continue
