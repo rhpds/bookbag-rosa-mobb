@@ -18,9 +18,9 @@ parameters:
     required: true
     value: quay.io/openshifthomeroom/workshop-dashboard:5.0.0
   - name: GIT_REPO
-    value: https://github.com/rhpds/bookbag-rosa-manual.git
+    value: git@github.com:ANZ-RH-Black-Belt/anz-mobb-rosa-ibm-cloudpaks-workshop.git
   - name: GIT_REF
-    value: main
+    value: storage
 
 objects:
   - apiVersion: image.openshift.io/v1

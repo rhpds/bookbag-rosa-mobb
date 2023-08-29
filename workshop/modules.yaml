@@ -15,51 +15,54 @@ modules:
   100-setup/3-access-cluster:
     name: Create an Admin User
     exit_sign: Continue
-  200-ops/lab_4_configure_idp:
-    name: Configure Cluster Authentication Using Amazon Cognito
-    exit_sign: Continue
-  200-ops/lab_5_cluster_upgrades:
-    name: Managing Cluster Upgrades
-    exit_sign: Continue
-  200-ops/lab_6_managing_worker_nodes:
-    name: Managing Worker Nodes
-    exit_sign: Continue
-  200-ops/lab_7_autoscaling:
-    name: Cluster Autoscaling
-    exit_sign: Continue
-  200-ops/lab_8_labeling_nodes:
-    name: Labeling Nodes
-    exit_sign: Continue
-  200-ops/lab_9_cloudwatch:
-    name: Log Forwarding to AWS Cloudwatch
-    exit_sign: Continue
-  300-apps/lab_10_deploy_app:
-    name: Deploy an Application
-    exit_sign: Continue
-  300-apps/lab_14_resilient_app:
-    name: Making your Application Resilient
-    exit_sign: Continue
-  300-apps/lab_12_network_policy:
-    name: Securing the application using NetworkPolicies
-    exit_sign: Continue
-  300-apps/lab_11_openshift_gitops:
-    name: Deploy the Application using OpenShift Gitops
-    exit_sign: Continue
-  300-apps/lab_13_cicd:
-    name: Automate Deploying the App using OpenShift Pipelines
-    exit_sign: Continue
-  400-service-mesh/lab_15_service_mesh_introduction:
-    name: Introduction to OpenShift Service Mesh
-    exit_sign: Continue
-  400-service-mesh/lab_16_service_mesh_deploy_operator:
-    name: Deploy Service Mesh Operator
-    exit_sign: Continue
-  400-service-mesh/lab_17_service_mesh_deploy_control_plane:
-    name: Deploy Service Mesh Control Plane
-    exit_sign: Continue
-  400-service-mesh/lab_18_service_mesh_deploy_app:
-    name: Deploy Workloads
-    exit_sign: Continue
-  400-service-mesh/lab_19_service_mesh_observe:
-    name: Configure and Observe Traffic
-    exit_sign: Exit
+  200-setup/storage:
+    name: Setup EFS Storage
+    exit_sign: continue
+  # 200-ops/lab_4_configure_idp:
+  #   name: Configure Cluster Authentication Using Amazon Cognito
+  #   exit_sign: Continue
+  # 200-ops/lab_5_cluster_upgrades:
+  #   name: Managing Cluster Upgrades
+  #   exit_sign: Continue
+  # 200-ops/lab_6_managing_worker_nodes:
+  #   name: Managing Worker Nodes
+  #   exit_sign: Continue
+  # 200-ops/lab_7_autoscaling:
+  #   name: Cluster Autoscaling
+  #   exit_sign: Continue
+  # 200-ops/lab_8_labeling_nodes:
+  #   name: Labeling Nodes
+  #   exit_sign: Continue
+  # 200-ops/lab_9_cloudwatch:
+  #   name: Log Forwarding to AWS Cloudwatch
+  #   exit_sign: Continue
+  # 300-apps/lab_10_deploy_app:
+  #   name: Deploy an Application
+  #   exit_sign: Continue
+  # 300-apps/lab_14_resilient_app:
+  #   name: Making your Application Resilient
+  #   exit_sign: Continue
+  # 300-apps/lab_12_network_policy:
+  #   name: Securing the application using NetworkPolicies
+  #   exit_sign: Continue
+  # 300-apps/lab_11_openshift_gitops:
+  #   name: Deploy the Application using OpenShift Gitops
+  #   exit_sign: Continue
+  # 300-apps/lab_13_cicd:
+  #   name: Automate Deploying the App using OpenShift Pipelines
+  #   exit_sign: Continue
+  # 400-service-mesh/lab_15_service_mesh_introduction:
+  #   name: Introduction to OpenShift Service Mesh
+  #   exit_sign: Continue
+  # 400-service-mesh/lab_16_service_mesh_deploy_operator:
+  #   name: Deploy Service Mesh Operator
+  #   exit_sign: Continue
+  # 400-service-mesh/lab_17_service_mesh_deploy_control_plane:
+  #   name: Deploy Service Mesh Control Plane
+  #   exit_sign: Continue
+  # 400-service-mesh/lab_18_service_mesh_deploy_app:
+  #   name: Deploy Workloads
+  #   exit_sign: Continue
+  # 400-service-mesh/lab_19_service_mesh_observe:
+  #   name: Configure and Observe Traffic
+  #   exit_sign: Exit

@@ -7,19 +7,20 @@ modules:
   - 100-setup/2-cluster-creation
 # - 100-setup/2-cluster-creation-hcp
   - 100-setup/3-access-cluster
-  - 200-ops/lab_4_configure_idp
-  - 200-ops/lab_5_cluster_upgrades
-  - 200-ops/lab_6_managing_worker_nodes
-  - 200-ops/lab_7_autoscaling
-  - 200-ops/lab_8_labeling_nodes
-  - 200-ops/lab_9_cloudwatch
-  - 300-apps/lab_10_deploy_app
-  - 300-apps/lab_14_resilient_app
-  - 300-apps/lab_12_network_policy
-  - 300-apps/lab_11_openshift_gitops
-  - 300-apps/lab_13_cicd
-  - 400-service-mesh/lab_15_service_mesh_introduction
-  - 400-service-mesh/lab_16_service_mesh_deploy_operator
-  - 400-service-mesh/lab_17_service_mesh_deploy_control_plane
-  - 400-service-mesh/lab_18_service_mesh_deploy_app
-  - 400-service-mesh/lab_19_service_mesh_observe
+  - 200-ops/storage
+  # - 200-ops/lab_4_configure_idp
+  # - 200-ops/lab_5_cluster_upgrades
+  # - 200-ops/lab_6_managing_worker_nodes
+  # - 200-ops/lab_7_autoscaling
+  # - 200-ops/lab_8_labeling_nodes
+  # - 200-ops/lab_9_cloudwatch
+  # - 300-apps/lab_10_deploy_app
+  # - 300-apps/lab_14_resilient_app
+  # - 300-apps/lab_12_network_policy
+  # - 300-apps/lab_11_openshift_gitops
+  # - 300-apps/lab_13_cicd
+  # - 400-service-mesh/lab_15_service_mesh_introduction
+  # - 400-service-mesh/lab_16_service_mesh_deploy_operator
+  # - 400-service-mesh/lab_17_service_mesh_deploy_control_plane
+  # - 400-service-mesh/lab_18_service_mesh_deploy_app
+  # - 400-service-mesh/lab_19_service_mesh_observe

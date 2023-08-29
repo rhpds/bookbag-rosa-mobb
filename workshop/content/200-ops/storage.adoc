@@ -1,0 +1,34 @@
+== STORAGE STORAGE
+
+Put some storage instructions here;
+
+
+== Grant was here
+
+. In the terminal window to the right connect to the bastion VM (you can also just click the command below to have it copied and executed automatically):
++
+[TIP]
+====
+Answer `yes` when asked if to accept the host key.
+
+The password for the user %rosa_bastion_user_name% is `%rosa_user_password%`
+====
++
+[source,sh,role=execute]
+----
+ssh %rosa_bastion_user_name%@bastion.%rosa_subdomain_base%
+----
++
+.Click in the box below to copy and paste the string `yes` to your terminal:
++
+[source,sh,role=execute]
+----
+yes
+----
++
+.Click in the box below to copy and paste the password to your terminal:
++
+[source,sh,role=execute]
+----
+%rosa_user_password%
+----
