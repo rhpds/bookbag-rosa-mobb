@@ -1,0 +1,24 @@
+name: mobb-rosa-workshop
+title: MOBB ROSA Workshop
+version: 0.1
+nav:
+- index.adoc
+- 100-setup/1-environment.adoc
+- 100-setup/2-cluster-creation.adoc
+- 100-setup/3-access-cluster.adoc
+- 200-ops/lab_4_configure_idp.adoc
+- 200-ops/lab_5_cluster_upgrades.adoc
+- 200-ops/lab_6_managing_worker_nodes.adoc
+- 200-ops/lab_7_autoscaling.adoc
+- 200-ops/lab_8_labeling_nodes.adoc
+- 200-ops/lab_9_cloudwatch.adoc
+- 300-apps/lab_10_deploy_app.adoc
+- 300-apps/lab_14_resilient_app.adoc
+- 300-apps/lab_12_network_policy.adoc
+- 300-apps/lab_11_openshift_gitops.adoc
+- 300-apps/lab_13_cicd.adoc
+- 400-service-mesh/lab_15_service_mesh_introduction.adoc
+- 400-service-mesh/lab_16_service_mesh_deploy_operator.adoc
+- 400-service-mesh/lab_17_service_mesh_deploy_control_plane.adoc
+- 400-service-mesh/lab_18_service_mesh_deploy_app.adoc
+- 400-service-mesh/lab_19_service_mesh_observe.adoc
