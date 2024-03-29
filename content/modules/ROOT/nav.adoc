@@ -2,7 +2,7 @@
 
 * xref:100-setup/lab_1_explore_rosa.adoc[Explore the ROSA environment]
 * xref:100-setup/lab_2_cluster_creation.adoc[Create a ROSA cluster]
-// * xref: 100-setup/lab_3_cluster_creation_hcp.adoc[Create a ROSA cluster with Hosted Control Planes]
+* xref:100-setup/lab_3_cluster_creation_hcp.adoc[Create a ROSA cluster with Hosted Control Planes]
 * xref:100-setup/lab_4_access_cluster.adoc[Access your ROSA cluster]
 
 *Basic Operational Tasks*
