@@ -1,0 +1,265 @@
+== Introduction
+
+The ROSA cluster autoscaler is a feature that helps automatically adjust the size of an ROSA cluster based on the current workload and resource demands. Cluster autoscaler offers automatic and intelligent scaling of ROSA clusters, leading to efficient resource utilization, improved application performance, high availability, and simplified cluster management. By dynamically adjusting the cluster size based on workload demands, it helps organizations optimize their infrastructure costs while ensuring optimal application performance and scalability. The cluster autoscaler does not increase the cluster resources beyond the limits that you specify.
+
+image::/diagram-cluster-autoscaler.png[Diagram illustrating the cluster autoscaler process]
+
+To learn more about cluster autoscaling, visit the https://docs.openshift.com/rosa/rosa_cluster_admin/rosa_nodes/rosa-nodes-about-autoscaling-nodes.html[Red Hat documentation for cluster autoscaling,window=_blank].
+
+== Enable Autoscaling on the Default MachinePool
+
+You can enable autoscaling on your cluster using either the `rosa` CLI or the Red Hat OpenShift Cluster Manager. For this lab we will be using the CLI; however, there are instructions at the end of the lab showing how to do it in the console.
+
+You will need to set up autoscaling for each MachinePool in the cluster separately.
+
+. To identify the machine pool IDs in a cluster, enter the following command:
++
+[source,sh,role=execute]
+----
+rosa list machinepools --cluster rosa-${GUID}
+----
++
+.Sample Output
+[source,text,options=nowrap]
+----
+ID       AUTOSCALING  REPLICAS  INSTANCE TYPE  LABELS    TAINTS    AVAILABILITY ZONE  SUBNET                    VERSION  AUTOREPAIR
+workers  No           2/2       m5.xlarge                          us-east-2a         subnet-050acbde792665f19  4.14.17  Yes
+----
++
+The *ID* of the MachinePool that you want to add autoscaling to is `workers`.
+
+. To enable autoscaling on a machine pool, enter the following command:
++
+[source,sh,role=execute]
+----
+rosa edit machinepool --cluster rosa-${GUID} workers --enable-autoscaling --min-replicas=2 --max-replicas=4
+----
++
+.Sample Output
+[source,text,options=nowrap]
+----
+I: Updated machine pool 'workers' on hosted cluster 'rosa-9p6dc'
+----
+
+. Next, let's check to see that our managed machine autoscalers have been created.
+To do so, run the following command:
++
+[source,sh,role=execute]
+----
+rosa list machinepools --cluster rosa-${GUID}
+----
++
+.Sample Output
+[source,text,options=nowrap]
+----
+ID       AUTOSCALING  REPLICAS  INSTANCE TYPE  LABELS    TAINTS    AVAILABILITY ZONE  SUBNET                    VERSION  AUTOREPAIR
+workers  Yes          2/2-4     m5.xlarge                          us-east-2a         subnet-050acbde792665f19  4.14.17  Yes
+----
+
+== Test the Cluster Autoscaler
+
+Now let's test the cluster autoscaler and see it in action.
+To do so, we'll deploy a job with a load that this cluster cannot handle.
+This should force the cluster to scale to handle the load.
+
+. First, let's create a namespace (also known as a project in OpenShift).
+To do so, run the following command:
++
+[source,sh,role=execute]
+----
+oc new-project autoscale-ex
+----
++
+.Sample Output
+[source,text,options=nowrap]
+----
+Now using project "autoscale-ex" on server "https://api.rosa-9p6dc.2eu0.p3.openshiftapps.com:443".
+
+You can add applications to this project with the 'new-app' command. For example, try:
+
+    oc new-app rails-postgresql-example
+
+to build a new example application in Ruby. Or use kubectl to deploy a simple Kubernetes application:
+
+    kubectl create deployment hello-node --image=registry.k8s.io/e2e-test-images/agnhost:2.43 -- /agnhost serve-hostname
+----
+
+. Next, let's deploy our job that will exhaust the cluster's resources and cause it to scale more worker nodes.
+To do so, run the following command:
++
+[source,sh,role=execute]
+----
+cat << EOF | oc apply -f -
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: maxscale
+  namespace: autoscale-ex
+spec:
+  template:
+    spec:
+      containers:
+      - name: work
+        image: busybox
+        command: ["sleep",  "300"]
+        resources:
+          requests:
+            memory: 500Mi
+            cpu: 500m
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+      restartPolicy: Never
+  backoffLimit: 4
+  completions: 50
+  parallelism: 50
+EOF
+----
++
+.Sample Output
+[source,text,options=nowrap]
+----
+job.batch/maxscale created
+----
+
+. After a few seconds, run the following to see what pods have been created.
++
+[source,sh,role=execute]
+----
+oc -n autoscale-ex get pods
+----
++
+.Sample Output
+[source,text,options=nowrap]
+----
+NAME             READY   STATUS    RESTARTS   AGE
+maxscale-2c6zt   1/1     Running   0          29s
+maxscale-2ps5g   0/1     Pending   0          29s
+maxscale-42l2d   0/1     Pending   0          29s
+maxscale-4n8rt   0/1     Pending   0          29s
+maxscale-5888n   1/1     Running   0          29s
+
+[...Output Omitted...]
+----
++
+Notice that we see a lot of pods in a pending state.
+This should trigger the cluster autoscaler to create more machines using the MachineAutoscaler we created.
+
+. Let's check to see if our MachinePool automatically scaled (it may take a few minutes).
+To do so, run the following command:
++
+[source,sh,role=execute]
+----
+rosa describe machinepool workers -c rosa-${GUID}
+----
++
+.Sample Output
+[source,text,options=nowrap]
+----
+ID:                         workers
+Cluster ID:                 2aab2ivftv9tjkglqudhhi7r0799ull4
+Autoscaling:                Yes
+Desired replicas:           2-4
+Current replicas:           2
+Instance type:              m5.xlarge
+Labels:
+Taints:
+Availability zone:          us-east-2a
+Subnet:                     subnet-050acbde792665f19
+Version:                    4.14.17
+Autorepair:                 Yes
+Tuning configs:
+Message:                    WaitingForAvailableMachines: NodeProvisioning
+----
++
+. You can now see that our MachinePool is now autoscaling.
+[rosa@bastion ~]$ oc get nodes
+NAME                                       STATUS     ROLES    AGE    VERSION
+ip-10-0-0-146.us-east-2.compute.internal   NotReady   worker   33s    v1.27.11+d8e449a
+ip-10-0-0-172.us-east-2.compute.internal   Ready      worker   118m   v1.27.11+d8e449a
+ip-10-0-0-180.us-east-2.compute.internal   NotReady   worker   44s    v1.27.11+d8e449a
+ip-10-0-0-83.us-east-2.compute.internal    Ready      worker   118m   v1.27.11+d8e449a
+
+. Now let's watch the cluster autoscaler create and delete machines as necessary (it may take several minutes for machines to appear in the Running state).
+To do so, run the following command:
++
+[source,sh,role=execute]
+----
+watch -n10 "oc get nodes -o wide"
+----
++
+.Sample Output
+[source,text,options=nowrap]
+----
+NAME                                       STATUS   ROLES    AGE     VERSION            INTERNAL-IP   EXTERNAL-IP   OS-IMAGE                                                       KERNEL-VERSION                 CONTAINER-RUNTIME
+ip-10-0-0-146.us-east-2.compute.internal   Ready    worker   2m35s   v1.27.11+d8e449a   10.0.0.146    <none>        Red Hat Enterprise Linux CoreOS 414.92.202403081134-0 (Plow)   5.14.0-284.55.1.el9_2.x86_64   cri-o://1.27.4-3.rhaos4.14.git914bcba.el9
+ip-10-0-0-172.us-east-2.compute.internal   Ready    worker   120m    v1.27.11+d8e449a   10.0.0.172    <none>        Red Hat Enterprise Linux CoreOS 414.92.202403081134-0 (Plow)   5.14.0-284.55.1.el9_2.x86_64   cri-o://1.27.4-3.rhaos4.14.git914bcba.el9
+ip-10-0-0-180.us-east-2.compute.internal   Ready    worker   2m46s   v1.27.11+d8e449a   10.0.0.180    <none>        Red Hat Enterprise Linux CoreOS 414.92.202403081134-0 (Plow)   5.14.0-284.55.1.el9_2.x86_64   cri-o://1.27.4-3.rhaos4.14.git914bcba.el9
+ip-10-0-0-83.us-east-2.compute.internal    Ready    worker   120m    v1.27.11+d8e449a   10.0.0.83     <none>        Red Hat Enterprise Linux CoreOS 414.92.202403081134-0 (Plow)   5.14.0-284.55.1.el9_2.x86_64   cri-o://1.27.4-3.rhaos4.14.git914bcba.el9
+----
++
+[TIP]
+====
+Watch will refresh the output of a command every 10 seconds.
+Hit CTRL and c on your keyboard to exit the watch command when you're ready to move on to the next part of the workshop.
+====
+
+. Once the machines are running stop the watch and re-run the command to display the pods for the job. You should see that more pods are now running. If you still see some pods in Pending state that is normal because even 4 worker nodes may not be enough to handle the node - but you limited the autoscaler to 4 worker nodes.
++
+[source,sh,role=execute]
+----
+oc -n autoscale-ex get pods
+----
++
+.Sample Output
+[source,text,options=nowrap]
+----
+NAME             READY   STATUS              RESTARTS   AGE
+maxscale-2c6zt   0/1     Completed           0          5m18s
+maxscale-2ps5g   0/1     ContainerCreating   0          5m18s
+maxscale-42l2d   0/1     ContainerCreating   0          5m18s
+maxscale-4n8rt   0/1     Pending             0          5m18s
+maxscale-5888n   0/1     Completed           0          5m18s
+maxscale-5944p   0/1     Completed           0          5m18s
+maxscale-5nwfz   0/1     Pending             0          5m18s
+maxscale-5p2n8   0/1     ContainerCreating   0          5m18s
+
+[...Output omitted...]
+----
+
+Congratulations!
+You've successfully demonstrated cluster autoscaling.
+
+== Summary
+
+Here you learned:
+
+* Enable autoscaling on the default Machine Pool for your cluster
+* Deploy an application on the cluster and watch the cluster autoscaler scale your cluster to support the increased workload
+
+== Enable Autoscaling via Red Hat OpenShift Cluster Manager Console
+
+[WARNING]
+====
+This section is for your information only. You do *not* have access to the OpenShift Cluster Manager. Feel free to read through these instructions to understand how to do it via the console - or skip to the next swection.
+====
+
+. Log back into the https://console.redhat.com/openshift[OpenShift Cluster Manager,window=_blank].
+. In the Cluster section, locate your cluster and click on it.
++
+image::ocm-cluster-list.png[OCM - Cluster List]
+
+. Next, click on the _Machine pools_ tab.
++
+image::ocm-cluster-detail-overview.png[OCM - Cluster Detail Overview]
+
+. Next, click on the ⋮ icon beside the _Default_ machine pool, and select _Scale_.
++
+image::ocm-machine-pool-three-dots.png[OCM - Machine Pool Menu]
+
+. Finally, check the _Enable autoscaling_ checkbox, and set the minimum to `1` and maximum to `2`, then click _Apply_.
++
+image::ocm-machine-pool-scale-menu.png[OCM - Machine Pool Scale Menu]
