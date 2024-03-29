@@ -230,6 +230,44 @@ maxscale-5p2n8   0/1     ContainerCreating   0          5m18s
 [...Output omitted...]
 ----
 
+=== Disable Autoscaling on the default Machine Pool
+
+. To disable autoscaling on the default Machine Pool, enter the following command:
++
+[source,sh,role=execute]
+----
+rosa edit machinepool workers -c rosa-${GUID} --labels tier=frontend --enable-autoscaling=false --replicas=2
+----
++
+.Sample Output
+[source,text,options=nowrap]
+----
+I: Updated machine pool 'workers' on hosted cluster 'rosa-9p6dc'
+----
+
+. Once you have done this, you should be able to see that the nodes are scaled down to 2 nodes.
++
+[source,sh,role=execute]
+----
+watch "oc get nodes"
+----
++
+.Sample Output
+[source,text,options=nowrap]
+----
+NAME                                       STATUS                     ROLES    AGE    VERSION
+ip-10-0-0-146.us-east-2.compute.internal   Ready                      worker   20m    v1.27.11+d8e449a
+ip-10-0-0-172.us-east-2.compute.internal   Ready                      worker   138m   v1.27.11+d8e449a
+ip-10-0-0-180.us-east-2.compute.internal   Ready,SchedulingDisabled   worker   20m    v1.27.11+d8e449a
+ip-10-0-0-83.us-east-2.compute.internal    Ready,SchedulingDisabled   worker   138m   v1.27.11+d8e449a
+----
++
+[TIP]
+====
+Watch will refresh the output of a command every 10 seconds.
+Hit CTRL and c on your keyboard to exit the watch command when you're ready to move on to the next part of the workshop.
+====
+
 Congratulations!
 You've successfully demonstrated cluster autoscaling.
 
