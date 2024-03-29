@@ -2,11 +2,11 @@
 
 == Create a Local Admin User for Cluster Access
 
-You can use built-in authentication to access your cluster immediately. This is done through the creation of a local privileged user. 
+You can use built-in authentication to access your cluster immediately. This is done through the creation of a local privileged user.
 
-ROSA makes this easy by providing a command to create a user, called `cluster-admin`, which has powerful cluster administration capabilities. 
+ROSA makes this easy by providing a command to create a user, called `cluster-admin`, which has powerful cluster administration capabilities.
 
-For production deployments, however, the recommended approach is to use an external identity provider to access the cluster. We will take you through an example of that in a later lab. 
+For production deployments, however, the recommended approach is to use an external identity provider to access the cluster. We will take you through an example of that in a later lab.
 
 . Run this command to create the local admin user
 +
@@ -126,6 +126,9 @@ https://console-openshift-console.apps.rosa-z8ssd.ls3a.p1.openshiftapps.com/
 ----
 
 . Next, open the printed URL in a web browser.
++
+WARNING: Additional Identity Providers have not been set up.
++
 . Click on the `cluster-admin` identity provider.
 . Enter the username (`cluster-admin`) and password from the previous section (use `echo $ADMIN_PASSWORD` to remind yourself what the password is in case you forgot).
 +

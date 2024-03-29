@@ -171,7 +171,7 @@ rosa create account-roles --mode auto --yes
 
 . Run the following command to create the cluster:
 +
-[source,sh,role=execute]
+[source,sh,role=execute,subs="attributes"]
 ----
 rosa create cluster --cluster-name rosa-${GUID} \
     --subnet-ids ${PUBLIC_SUBNET_ID},${PRIVATE_SUBNET_ID} \
