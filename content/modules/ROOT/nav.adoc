@@ -3,15 +3,15 @@
 * xref:100-setup/lab_1_explore_rosa.adoc[Explore the ROSA environment]
 * xref:100-setup/lab_2_cluster_creation.adoc[Create a ROSA cluster]
 * xref:100-setup/lab_3_cluster_creation_hcp.adoc[Create a ROSA cluster with Hosted Control Planes]
-* xref:100-setup/lab_4_access_cluster.adoc[Access your ROSA cluster]
+* xref:100-setup/lab_4_access_cluster.adoc[Access the ROSA cluster]
 
 *Basic Operational Tasks*
 
-* xref:200-ops/lab_1_cluster_upgrades.adoc[Upgrade your ROSA cluster]
-* xref:200-ops/lab_2_managing_worker_nodes.adoc[Managing Worker Nodes]
-* xref:200-ops/lab_2a_managing_worker_nodes_hcp.adoc[Managing Worker Nodes - HCP]
-* xref:200-ops/lab_3_autoscaling.adoc[Autoscale your ROSA Cluster]
-* xref:200-ops/lab_4_labeling_nodes.adoc[Labeling your Worker Nodes]
+* xref:200-ops/lab_1_cluster_upgrades.adoc[Upgrade the ROSA cluster]
+* xref:200-ops/lab_2_managing_worker_nodes.adoc[Manage Worker Nodes]
+* xref:200-ops/lab_2a_managing_worker_nodes_hcp.adoc[Manage Worker Nodes - HCP]
+* xref:200-ops/lab_3_autoscaling.adoc[Autoscale the ROSA Cluster]
+* xref:200-ops/lab_4_labeling_nodes.adoc[Label Worker Nodes]
 * xref:200-ops/lab_5_configure_idp_cognito.adoc[Configure AWS Cognito IDP for ROSA]
 * xref:200-ops/lab_6_cloudwatch.adoc[Configure Red Hat OpenShift Logging with AWS Cloudwatch]
 
@@ -19,9 +19,9 @@
 
 * xref:300-apps/lab_1_deploy_app.adoc[Deploy an application with AWS Database]
 * xref:300-apps/lab_2_openshift_gitops.adoc[Deploy an application with Red Hat OpenShift GitOps]
-* xref:300-apps/lab_3_network_policy.adoc[Secure your applications with Network Policies]
-* xref:300-apps/lab_4_resilient_app.adoc[Make your application resilient]
-// * xref:300-apps/lab_5_cicd.adoc[Deploy your application using CI/CD]
+* xref:300-apps/lab_3_network_policy.adoc[Secure applications with Network Policies]
+* xref:300-apps/lab_4_resilient_app.adoc[Make applications resilient]
+// * xref:300-apps/lab_5_cicd.adoc[Deploy the application using CI/CD]
 
 *Red Hat OpenShift Service Mesh*
 
