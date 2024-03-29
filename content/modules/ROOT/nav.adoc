@@ -9,6 +9,7 @@
 
 * xref:200-ops/lab_1_cluster_upgrades.adoc[Upgrade your ROSA cluster]
 * xref:200-ops/lab_2_managing_worker_nodes.adoc[Managing Worker Nodes]
+* xref:200-ops/lab_2a_managing_worker_nodes_hcp.adoc[Managing Worker Nodes - HCP]
 * xref:200-ops/lab_3_autoscaling.adoc[Autoscale your ROSA Cluster]
 * xref:200-ops/lab_4_labeling_nodes.adoc[Labeling your Worker Nodes]
 * xref:200-ops/lab_5_configure_idp_cognito.adoc[Configure AWS Cognito IDP for ROSA]
