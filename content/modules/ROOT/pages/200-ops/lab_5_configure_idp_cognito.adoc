@@ -69,10 +69,11 @@ First let's create an admin user for our cluster:
 +
 [source,sh,role=execute,subs=attributes]
 ----
+ROSA_USER_PASSWORD=$(htpasswd -nbB 10 "" | cut -d: -f2)
 aws cognito-idp admin-create-user \
   --user-pool-id $AWS_USER_POOL_ID \
   --username admin \
-  --temporary-password {rosa_user_password}-2@23 \
+  --temporary-password $ROSA_USER_PASSWORD \
   --user-attributes Name=name,Value="Cluster Administrator" Name="email",Value="admin@rosaworkshop.com" Name="email_verified",Value="true" \
   --message-action SUPPRESS
 ----
@@ -116,14 +117,14 @@ aws cognito-idp admin-create-user \
 aws cognito-idp admin-create-user \
   --user-pool-id $AWS_USER_POOL_ID \
   --username user1 \
-  --temporary-password {rosa_user_password}-2@23 \
+  --temporary-password $ROSA_USER_PASSWORD \
   --user-attributes Name=name,Value="User 1" Name="email",Value="user1@rosaworkshop.com" Name="email_verified",Value="true" \
   --message-action SUPPRESS
 
 aws cognito-idp admin-create-user \
   --user-pool-id $AWS_USER_POOL_ID \
   --username user2 \
-  --temporary-password {rosa_user_password}-2@23 \
+  --temporary-password $ROSA_USER_PASSWORD \
   --user-attributes Name=name,Value="User 2" Name="email",Value="user2@rosaworkshop.com" Name="email_verified",Value="true" \
   --message-action SUPPRESS
 ----
@@ -147,6 +148,7 @@ OAuth callback URL: https://oauth-openshift.apps.rosa-6sc5n.dypb.p1.openshiftapp
 Take a note of that URL - you will need it in the next section.
 +
 //== Create an Amazon Cognito User Pool App Client
+//https://oauth-openshift.apps.rosa-9p6dc.2eu0.p3.openshiftapps.com/oauth2callback/Cognito
 +
 . Next, let's create an app client in Amazon Cognito. To do so, run the following command:
 +
