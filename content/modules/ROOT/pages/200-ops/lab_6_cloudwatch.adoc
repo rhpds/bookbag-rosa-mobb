@@ -124,28 +124,29 @@ aws iam attach-role-policy \
 
 The CLO (Cluster Logging Operator) provides a set of APIs to control collection and forwarding of logs from all pods and nodes in a cluster. This includes application logs (from regular pods), infrastructure logs (from system pods and node logs), and audit logs (special node logs with legal/security implications). In this section we will install cluster logging operator on the ROSA cluster and configure it to forward logs to Amazon CloudWatch.
 
-. Now, we need to deploy the OpenShift Cluster Logging Operator. First we need to create an `OperatorGroup` for the operator:
+. Now, we need to deploy the OpenShift Cluster Logging Operator. We'll need a Namespace, an OperatorGroup, and a Subscription.
+To do so, run the following command:
 +
 [source,sh,role=execute]
 ----
 cat << EOF | oc apply -f -
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: openshift-logging
+  annotations:
+    openshift.io/node-selector: ""
+  labels:
+    openshift.io/cluster-monitoring: "true"
 ---
 apiVersion: operators.coreos.com/v1
 kind: OperatorGroup
 metadata:
-  name: openshift-logging
+  name: cluster-logging
   namespace: openshift-logging
 spec:
   targetNamespaces:
   - openshift-logging
-EOF
-----
-
-. Now we can create the Operator `Subscription`. To do so, run the following command:
-+
-[source,sh,role=execute]
-----
-cat << EOF | oc apply -f -
 ---
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
