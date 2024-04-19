@@ -1,5 +1,7 @@
 :markup-in-source: verbatim,attributes,quotes
 
+ifeval::["{rosa_admin_user}" == "none"]
+
 == Create a Local Admin User for Cluster Access
 
 You can use built-in authentication to access your cluster immediately. This is done through the creation of a local privileged user. 
@@ -108,7 +110,32 @@ router-default-7994f6fd58-z6gpm   1/1     Running   0          102s
 
 . You can now access the cluster with this local admin user. Though, for production use, it is highly recommended to set up an external identity provider.
 
-=== Login to the OpenShift Web Console
+endif::[]
+ifeval::["{rosa_admin_user}" != "none"]
+
+== Access the cluster using the Local Admin User
+
+An admin user has already been creaeted for you on this cluster. If you created that cluster yourself you'd have to create an admin user as well.
+
+The command to create an admin user is:
+
+[source,sh]
+----
+rosa create admin --cluster rosa-${GUID}
+----
+
+Your admin credentials are:
++
+====
+Admin User: {rosa_admin_user}
+Admin Password: {rosa_admin_password}
+OpenShift API URL: {rosa_api_url}
+OpenShift Web Console: {rosa_console_url}
+====
+
+endif::[]
+
+== Login to the OpenShift Web Console
 
 Next, let's log in to the OpenShift Web Console. To do so, follow the below steps:
 
