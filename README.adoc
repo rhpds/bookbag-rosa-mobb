@@ -1,5 +1,9 @@
 :markup-in-source: verbatim,attributes,quotes
 
+= Archived
+
+This repository is now archived. It has been replaced by https://github.com/rhpds/showroom-rosa-workshop
+
 = Bookbag Template
 
 NOTE: This project is based on OpenShift Homeroom: https://github.com/openshift-homeroom.
